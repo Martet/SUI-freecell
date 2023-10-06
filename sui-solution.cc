@@ -32,6 +32,31 @@ std::vector<SearchAction> BreadthFirstSearch::solve(const SearchState &init_stat
 }
 
 std::vector<SearchAction> DepthFirstSearch::solve(const SearchState &init_state) {
+	std::vector<std::pair<SearchState, std::vector<SearchAction>>> open;
+	std::set<SearchState> closed;
+	open.push_back(std::pair(init_state, std::vector<SearchAction>()));
+
+	while (!open.empty()) {
+		auto state = open.back();
+		open.pop_back();
+		auto insert = closed.insert(state.first);
+		if (!insert.second)
+			continue;
+
+		auto actions = state.first.actions();
+		if (actions.size() == 0)
+			continue;
+		if (state.second.size() >= (std::size_t) depth_limit_)
+			continue;
+		for (auto action: actions) {
+			auto new_state = action.execute(state.first);
+			auto new_actions(state.second);
+			new_actions.push_back(action);
+			if (new_state.isFinal())
+				return new_actions;
+			open.push_back(std::pair(new_state, new_actions));
+		}
+	}
 	return {};
 }
 
