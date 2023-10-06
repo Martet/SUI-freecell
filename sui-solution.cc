@@ -12,8 +12,6 @@ std::vector<SearchAction> BreadthFirstSearch::solve(const SearchState &init_stat
 	while (!open.empty()) {
 		auto state = open.front();
 		open.pop();
-		if (state.first.isFinal())
-			return state.second;
 		auto insert = closed.insert(state.first);
 		if (!insert.second)
 			continue;
@@ -22,9 +20,12 @@ std::vector<SearchAction> BreadthFirstSearch::solve(const SearchState &init_stat
 		if (actions.size() == 0)
 			continue;
 		for (auto action: actions) {
+			auto new_state = action.execute(state.first);
 			auto new_actions(state.second);
 			new_actions.push_back(action);
-			open.push(std::pair(action.execute(state.first), new_actions));
+			if (new_state.isFinal())
+				return new_actions;
+			open.push(std::pair(new_state, new_actions));
 		}
 	}
 	return {};
