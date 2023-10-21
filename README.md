@@ -37,3 +37,11 @@ The A* with the default `nb_not_home` heuristic can realistically solve deals up
 Breadth-first strategies can get really wild allocating all the states to explore.
 Maximal memory consumption can be limited using `--mem-limit NB_BYTES`.
 If the program takes more than `NB_BYTES` in resident memory usage, it aborts itself.
+
+
+## Docker
+```
+docker build -t sui-freecell:latest -f Dockerfile . 
+docker run -itd --name sui-freecell -v (pwd):/home/app sui-freecell:latest
+docker exec -it sui-freecell /bin/fish
+```
