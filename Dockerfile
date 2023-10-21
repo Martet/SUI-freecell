@@ -44,6 +44,8 @@ RUN apt-get update \
 
 WORKDIR /home/app
 
+ENV SHELL /usr/bin/fish
+CMD ["/bin/fish"]
 #
 ## Setup root
 #RUN echo 'root:root' | chpasswd

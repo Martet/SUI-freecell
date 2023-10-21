@@ -1,4 +1,5 @@
-.idea
+/.idea
+/tmp
 .DS_Store
 *.o
 *.d

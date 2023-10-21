@@ -41,7 +41,6 @@ If the program takes more than `NB_BYTES` in resident memory usage, it aborts it
 
 ## Docker
 ```
-docker build -t sui-freecell:latest -f Dockerfile . 
-docker run -itd --name sui-freecell -v (pwd):/home/app sui-freecell:latest
-docker exec -it sui-freecell /bin/fish
+docker build -t sui-freecell:latest -f Dockerfile .
+docker run -it --name=sui-freecell  -v=(pwd):/home/app -v=./tmp/fish/:/root/.local/share/fish/ --rm sui-freecell:latest
 ```
