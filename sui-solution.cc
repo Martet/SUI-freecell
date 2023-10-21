@@ -59,8 +59,56 @@ std::vector<SearchAction> DepthFirstSearch::solve(const SearchState &init_state)
 	return {};
 }
 
+int color_to_int(Color color) {
+	switch (color) {
+		case Color::Heart:
+			return 0;
+		case Color::Diamond:
+			return 1;
+		case Color::Club:
+			return 2;
+		case Color::Spade:
+			return 3;
+	}
+}
+
 double StudentHeuristic::distanceLowerBound(const GameState &state) const {
-    return 0;
+	int cards_out_of_home = king_value * colors_list.size();
+    for (const auto &home : state.homes) {
+        auto opt_top = home.topCard();
+        if (opt_top.has_value())
+            cards_out_of_home -= opt_top->value;
+    }
+
+	int well_placed = 0;
+	for (auto &stack: state.stacks) {
+		well_placed += stack.nbCards();
+		auto last_color = Color::Spade;
+		auto last_value = 0;
+		for (Card card: stack.storage()) {
+			if (card.value < last_value && color_to_int(card.color) / 2 == color_to_int(last_color) / 2)
+				well_placed--;
+			last_color = card.color;
+			last_value = card.value;
+		}
+	}
+
+	double stack_avg = 0, home_avg = 0;
+	for (auto &stack: state.stacks)
+		if (stack.topCard().has_value())
+			stack_avg += stack.topCard().value().value;
+	stack_avg /= 8;
+	for (auto &home: state.homes)
+		if (home.topCard().has_value())
+			home_avg += home.topCard().value().value;
+	home_avg /= 4;
+
+	int free_cells = 0;
+	for (auto &stack: state.free_cells)
+		if (stack.topCard().has_value())
+			free_cells++;
+
+    return cards_out_of_home + well_placed + stack_avg - home_avg - free_cells;
 }
 
 struct SearchNode {
