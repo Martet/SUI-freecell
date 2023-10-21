@@ -2,6 +2,7 @@
 #include <queue>
 #include <set>
 
+#include "memusage.h"
 #include "search-strategies.h"
 
 std::vector<SearchAction> BreadthFirstSearch::solve(const SearchState &init_state) {
@@ -17,8 +18,6 @@ std::vector<SearchAction> BreadthFirstSearch::solve(const SearchState &init_stat
 			continue;
 
 		auto actions = state.first.actions();
-		if (actions.size() == 0)
-			continue;
 		for (auto action: actions) {
 			auto new_state = action.execute(state.first);
 			auto new_actions(state.second);
@@ -27,6 +26,9 @@ std::vector<SearchAction> BreadthFirstSearch::solve(const SearchState &init_stat
 				return new_actions;
 			open.push(std::pair(new_state, new_actions));
 		}
+
+		if (getCurrentRSS() > mem_limit_ - 50 * 1000 * 1000)
+			return {};
 	}
 	return {};
 }
@@ -44,8 +46,6 @@ std::vector<SearchAction> DepthFirstSearch::solve(const SearchState &init_state)
 			continue;
 
 		auto actions = state.first.actions();
-		if (actions.size() == 0)
-			continue;
 		if (state.second.size() >= (std::size_t) depth_limit_)
 			continue;
 		for (auto action: actions) {
@@ -56,6 +56,9 @@ std::vector<SearchAction> DepthFirstSearch::solve(const SearchState &init_state)
 				return new_actions;
 			open.push_back(std::pair(new_state, new_actions));
 		}
+
+		if (getCurrentRSS() > mem_limit_ - 50 * 1000 * 1000)
+			return {};
 	}
 	return {};
 }
@@ -83,8 +86,6 @@ std::vector<SearchAction> AStarSearch::solve(const SearchState &init_state) {
 			continue;
 
 		auto actions = state.first.actions();
-		if (actions.size() == 0)
-			continue;
 		for (auto action: actions) {
 			auto new_state = action.execute(state.first);
 			int new_g = g[state.first] + 1;
@@ -97,6 +98,9 @@ std::vector<SearchAction> AStarSearch::solve(const SearchState &init_state) {
 			new_actions.push_back(action);
 			open.push(std::pair(f, std::pair(new_state, new_actions)));
 		}
+
+		if (getCurrentRSS() > mem_limit_ - 50 * 1000 * 1000)
+			return {};
 	}
 	return {};
 }
