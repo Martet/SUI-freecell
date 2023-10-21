@@ -74,11 +74,11 @@ int color_to_int(Color color) {
 
 double StudentHeuristic::distanceLowerBound(const GameState &state) const {
 	int cards_out_of_home = king_value * colors_list.size();
-    for (const auto &home : state.homes) {
-        auto opt_top = home.topCard();
-        if (opt_top.has_value())
-            cards_out_of_home -= opt_top->value;
-    }
+	for (const auto &home : state.homes) {
+		auto opt_top = home.topCard();
+		if (opt_top.has_value())
+		cards_out_of_home -= opt_top->value;
+	}
 
 	int well_placed = 0;
 	for (auto &stack: state.stacks) {
@@ -108,7 +108,7 @@ double StudentHeuristic::distanceLowerBound(const GameState &state) const {
 		if (stack.topCard().has_value())
 			free_cells++;
 
-    return cards_out_of_home + well_placed + stack_avg - home_avg - free_cells;
+	return cards_out_of_home + well_placed + stack_avg - home_avg - free_cells;
 }
 
 struct SearchNode {
