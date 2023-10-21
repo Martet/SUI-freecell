@@ -154,7 +154,6 @@ std::vector<SearchAction> AStarSearch::solve(const SearchState &init_state) {
 				if (new_g > nodes[new_state].g || (new_g == nodes[new_state].g && f > top_f))
 					continue;
 			if (new_state.isFinal()){
-				std::cout << getCurrentRSS() << std::endl;
 				return reconstruct_path(std::make_shared<SearchNode>(node));
 			}
 			nodes[new_state] = node;
