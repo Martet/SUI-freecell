@@ -86,7 +86,7 @@ double StudentHeuristic::distanceLowerBound(const GameState &state) const {
 		auto last_color = Color::Spade;
 		auto last_value = 0;
 		for (Card card: stack.storage()) {
-			if (card.value < last_value && color_to_int(card.color) / 2 == color_to_int(last_color) / 2)
+			if (card.value < last_value && color_to_int(card.color) / 2 != color_to_int(last_color) / 2)
 				well_placed--;
 			last_color = card.color;
 			last_value = card.value;
