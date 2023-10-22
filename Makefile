@@ -1,4 +1,4 @@
-CXXFLAGS=-std=c++17 -Wall -Wextra -pedantic -O2 -g
+CXXFLAGS=-std=c++17 -Wall -Wextra -pedantic -O0 -g
 
 BUILD_DIR=./build
 DEP_DIR=./dep

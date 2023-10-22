@@ -1,3 +1,12 @@
+/*
+ * Course: Artificial Intelligence and Machine Learning (SUI) 2023/2024
+ *
+ * Project 1: Search Algorithms
+ *
+ * Authors: Bc. Martin Zmitko (xzmitk01)
+ *          Bc. Zdeněk Lapeš (xlapes02)
+ */
+
 #include <algorithm>
 #include <queue>
 #include <set>
